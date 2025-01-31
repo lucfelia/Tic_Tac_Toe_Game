@@ -11,6 +11,7 @@ void createBoard() {
 }
 
 void printBoard() {
+    std::cout << "   TIC TAC TOE" << std::endl << std::endl;
     std::cout << "  -------------" << std::endl;
     for (int i = 0; i < SIZE_ROW; i++) {
         std::cout << " ";
