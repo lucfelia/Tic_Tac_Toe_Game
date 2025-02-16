@@ -219,10 +219,15 @@ void menu(){
 			newGame(gameover, board, userinput_1, userinput_2, truenumber_1, truenumber_2, turnplayer_1,namefile);
 		}
 		else  if (option == MIDDLE_OPTION) {
-			std::cout << "Chose a name for the saved file." << std::endl;
+			std::cout << "Enter the name of the file to upload. (Type 'menu' to go back):" << std::endl;
 			std::cin >> namefile;
-			namefile += filetype;
-			loadGame(gameover, board, userinput_1, userinput_2, truenumber_1, truenumber_2, turnplayer_1,namefile);
+			if (namefile != "menu") {
+				namefile += filetype;
+				loadGame(gameover, board, userinput_1, userinput_2, truenumber_1, truenumber_2, turnplayer_1, namefile);
+			}
+			else {
+				system("cls");
+			}
 		}
 		else if (option == HIGHEST_OPTION) {
 			std::cout << std::endl << "BYE! <3" << std::endl;
