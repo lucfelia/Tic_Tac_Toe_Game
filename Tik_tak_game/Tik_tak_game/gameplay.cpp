@@ -136,6 +136,9 @@ void gameLoop(bool gameover, char board[TABLE_LENGHT][TABLE_LENGHT], char userin
 			if (numero == 0) {
 				gameover = true;
 			}
+			else {
+				turnplayer_1 = !turnplayer_1;
+			}
 		}
 
 		// Cuando se acaba el juego, mostramos el jugador:
