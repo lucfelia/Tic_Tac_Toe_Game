@@ -6,16 +6,16 @@
 void bot(char board[TABLE_LENGHT][TABLE_LENGHT]) {
 
 	// 1. Generamos dos números aleatorios entre 0 y 2 (para un tablero de 3x3).
-	int num1 = rand() % 3;
-	int num2 = rand() % 3;
+	int num1 = rand() % TABLE_LENGHT;
+	int num2 = rand() % TABLE_LENGHT;
 
 	// 2. Verificamos si la casilla seleccionada ya está ocupada.
-	while (board[num1][num2] != ' ') {
-		num1 = rand() % 3;
-		num2 = rand() % 3;
+	while (board[num1][num2] != EMPTY) {
+		num1 = rand() % TABLE_LENGHT;
+		num2 = rand() % TABLE_LENGHT;
 	}
 	// 3. Una vez encontrada una casilla vacía, la marcamos con 'O'.
-	board[num1][num2] = 'O';
+	board[num1][num2] = CRICLE;
 }
 
 // Función que gestiona los turnos:
@@ -32,12 +32,12 @@ void turns(short& truenumber_1, short& truenumber_2, char& userinput_1, char& us
 			std::cin >> userinput_1;
 
 			// Opción de salir y guardar la partida:
-			if (userinput_1 == 'q' || userinput_1 == 'Q') {
+			if (userinput_1 == QUIT_L || userinput_1 == QUIT) {
 				tourn = false;
 			}
 			else {
 				// Validamos que la fila esté entre 1 y 3:
-				if (userinput_1 < '1' || userinput_1>'3') {
+				if (userinput_1 < LOWER_OPTION || userinput_1> HIGHEST_OPTION) {
 					system("cls");
 					printBoard(board);
 					std::cout << std::endl << "Invalid character error!" << std::endl;
@@ -46,12 +46,12 @@ void turns(short& truenumber_1, short& truenumber_2, char& userinput_1, char& us
 					std::cout << std::endl << "In what position do you want to add the numbers (Column): " << std::endl;
 					std::cin >> userinput_2;
 					// Opción de salir y guardar la partida:
-					if (userinput_1 == 'q' || userinput_1 == 'Q') {
+					if (userinput_1 == QUIT_L || userinput_1 == QUIT) {
 						tourn = false;
 					}
 					else {
 						// Validamos que la columna esté entre 1 y 3:
-						if (userinput_2 < '1' || userinput_2>'3') {
+						if (userinput_2 < LOWER_OPTION || userinput_2> HIGHEST_OPTION) {
 							system("cls");
 							printBoard(board);
 							std::cout << std::endl << "Invalid character error!" << std::endl;
@@ -62,7 +62,7 @@ void turns(short& truenumber_1, short& truenumber_2, char& userinput_1, char& us
 							truenumber_2 = ((short)userinput_2 + CHAR_TRANSFOMATION);
 						}
 						// Comprobamos si la casilla está ocupada:
-						if (board[truenumber_1][truenumber_2] != ' ') {
+						if (board[truenumber_1][truenumber_2] != EMPTY) {
 							system("cls");
 							printBoard(board);
 							std::cout << std::endl << "Position alredy ocupied!" << std::endl;
@@ -70,7 +70,7 @@ void turns(short& truenumber_1, short& truenumber_2, char& userinput_1, char& us
 						}
 						// Si la posición está libre, asignamos la jugada correspondiente:
 						else if (turnplayer_1 && tourn) {
-							board[truenumber_1][truenumber_2] = 'X';
+							board[truenumber_1][truenumber_2] = CROSS;
 							tourn = false;
 
 						}
@@ -94,20 +94,20 @@ bool check(char board[TABLE_LENGHT][TABLE_LENGHT], short truenumber_1, short tru
 	
 	// Se verifican las filas:
 	for (int i = 0; i < TABLE_LENGHT; i++) {
-		if (board[i][0] != ' ' && board[i][0] == board[i][1] && board[i][1] == board[i][2]) {
+		if (board[i][0] != EMPTY && board[i][0] == board[i][1] && board[i][1] == board[i][2]) {
 			return true;
 		}
 		// Y las columnas:
-		if (board[0][i] != ' ' && board[0][i] == board[1][i] && board[1][i] == board[2][i]) {
+		if (board[0][i] != EMPTY && board[0][i] == board[1][i] && board[1][i] == board[2][i]) {
 			return true;
 		}
 	}
 	// Se comprueba la primera diagonal:
-	if (board[0][0] != ' ' && board[0][0] == board[1][1] && board[1][1] == board[2][2]) {
+	if (board[0][0] != EMPTY && board[0][0] == board[1][1] && board[1][1] == board[2][2]) {
 		return true;
 	}
 	// Y la segunda:
-	if (board[0][2] != ' ' && board[0][2] == board[1][1] && board[1][1] == board[2][0]) {
+	if (board[0][2] != EMPTY && board[0][2] == board[1][1] && board[1][1] == board[2][0]) {
 		return true;
 	}
 	return false;
@@ -115,8 +115,8 @@ bool check(char board[TABLE_LENGHT][TABLE_LENGHT], short truenumber_1, short tru
 
 // Bucle principal del juego:
 void gameLoop(bool gameover, char board[TABLE_LENGHT][TABLE_LENGHT], char userinput_1, char userinput_2, short truenumber_1, short truenumber_2, bool turnplayer_1, std::string namefile) {
-	std::string filetype = ".txt";
-	int numero;
+	std::string filetype = FILE_EXTENSION;
+	int number;
 	while (!gameover) {
 
 		// Mostramos tablero:
@@ -128,12 +128,16 @@ void gameLoop(bool gameover, char board[TABLE_LENGHT][TABLE_LENGHT], char userin
 		gameover = check(board, truenumber_1, truenumber_2);
 
 		// Si el jugador quiere salir y guardar la partida:
-		if (userinput_1 == 'q' || userinput_1 == 'Q' || userinput_2 == 'q' || userinput_2 == 'Q') {
-			std::cout << "Chose a name for the saved file."<<std::endl;
+		if (userinput_1 == QUIT_L || userinput_1 == QUIT || userinput_2 == QUIT_L || userinput_2 == QUIT) {
+			
+			std::cout << std::endl;
+			std::cout << "Choose a name to save the file: ";
 			std::cin >> namefile;
+			
 			namefile += filetype;
-			numero=saveFile(board,namefile);
-			if (numero == 0) {
+			number=saveFile(board,namefile);
+			
+			if (number == 0) {
 				gameover = true;
 			}
 			else {
@@ -143,6 +147,7 @@ void gameLoop(bool gameover, char board[TABLE_LENGHT][TABLE_LENGHT], char userin
 
 		// Cuando se acaba el juego, mostramos el jugador:
 		if (gameover && check(board, truenumber_1, truenumber_2)) {
+			
 			if (!turnplayer_1) {
 				std::cout << std::endl << "PLAYER 1 WINS!" << std::endl;
 			}
@@ -195,7 +200,7 @@ void menu(){
 	bool menu = true;
 	char option = ' ';
 	std::string namefile;
-	std::string filetype = ".txt";
+	std::string filetype = FILE_EXTENSION;
 
 	srand(time(NULL));
 
@@ -210,16 +215,16 @@ void menu(){
 		std::cin >> option;
 
 		system("cls");
-		if (option == '1') {
+		if (option == LOWER_OPTION) {
 			newGame(gameover, board, userinput_1, userinput_2, truenumber_1, truenumber_2, turnplayer_1,namefile);
 		}
-		else  if (option == '2') {
+		else  if (option == MIDDLE_OPTION) {
 			std::cout << "Chose a name for the saved file." << std::endl;
 			std::cin >> namefile;
 			namefile += filetype;
 			loadGame(gameover, board, userinput_1, userinput_2, truenumber_1, truenumber_2, turnplayer_1,namefile);
 		}
-		else if (option == '3') {
+		else if (option == HIGHEST_OPTION) {
 			std::cout << std::endl << "BYE! <3" << std::endl;
 			menu = !menu;
 		}

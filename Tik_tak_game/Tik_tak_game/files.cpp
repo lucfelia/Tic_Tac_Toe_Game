@@ -5,15 +5,16 @@
 // Función para guardar la partida:
 int saveFile(char board[TABLE_LENGHT][TABLE_LENGHT], std::string namefile) {
 	bool bucle = true;
-	char option = ' ';
+	char option = EMPTY;
 	// 1. Abrimos / creamos el archivo "save.txt":
 	std::ofstream savedGame;
 	savedGame.open(namefile, std::ios::out);
+
 	if (savedGame.is_open()) {
 		while (bucle) {
 			std::cout << "Quieres sobreescribir el archivo? (Y/N)" << std::endl;
 			std::cin >> option;
-			if (option == 'Y' || option == 'y') {
+			if (option == YES || option == YES_L) {
 				// 2. Lo llenamos de carácteres vacíos (' '):
 				savedGame << EMPTY;
 				savedGame.close();
@@ -41,7 +42,7 @@ int saveFile(char board[TABLE_LENGHT][TABLE_LENGHT], std::string namefile) {
 				return 0;
 				bucle = false;
 			}
-			else if (option == 'N' || option == 'n') {
+			else if (option == NO || option == NO_L) {
 				return 1;
 				bucle= false;
 			}
