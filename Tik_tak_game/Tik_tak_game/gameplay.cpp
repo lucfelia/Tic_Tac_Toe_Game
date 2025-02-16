@@ -55,29 +55,29 @@ void turns(short& truenumber_1, short& truenumber_2, char& userinput_1, char& us
 							system("cls");
 							printBoard(board);
 							std::cout << std::endl << "Invalid character error!" << std::endl;
-
 						}
 						else {
 							// Convertimos las entradas de char a índice de array (restando '1'):
 							truenumber_1 = ((short)userinput_1 + CHAR_TRANSFOMATION);
 							truenumber_2 = ((short)userinput_2 + CHAR_TRANSFOMATION);
 						}
+						// Comprobamos si la casilla está ocupada:
+						if (board[truenumber_1][truenumber_2] != ' ') {
+							system("cls");
+							printBoard(board);
+							std::cout << std::endl << "Position alredy ocupied!" << std::endl;
+
+						}
+						// Si la posición está libre, asignamos la jugada correspondiente:
+						else if (turnplayer_1 && tourn) {
+							board[truenumber_1][truenumber_2] = 'X';
+							tourn = false;
+
+						}
 					}
 				}
 			}
-			// Comprobamos si la casilla está ocupada:
-			if (board[truenumber_1][truenumber_2] != ' ') {
-				system("cls");
-				printBoard(board);
-				std::cout << std::endl << "Position alredy ocupied!" << std::endl;
-
-			}
-			// Si la posición está libre, asignamos la jugada correspondiente:
-			else if (turnplayer_1 && tourn) {
-				board[truenumber_1][truenumber_2] = 'X';
-				tourn = false;
-
-			}
+			
 		}
 		// Si es el turno del jugador 2 (la IA):
 		else {
