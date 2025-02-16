@@ -114,8 +114,9 @@ bool check(char board[TABLE_LENGHT][TABLE_LENGHT], short truenumber_1, short tru
 }
 
 // Bucle principal del juego:
-void gameLoop(bool gameover, char board[TABLE_LENGHT][TABLE_LENGHT], char userinput_1, char userinput_2, short truenumber_1, short truenumber_2, bool turnplayer_1) {
-
+void gameLoop(bool gameover, char board[TABLE_LENGHT][TABLE_LENGHT], char userinput_1, char userinput_2, short truenumber_1, short truenumber_2, bool turnplayer_1, std::string namefile) {
+	std::string filetype = ".txt";
+	int numero;
 	while (!gameover) {
 
 		// Mostramos tablero:
@@ -128,8 +129,13 @@ void gameLoop(bool gameover, char board[TABLE_LENGHT][TABLE_LENGHT], char userin
 
 		// Si el jugador quiere salir y guardar la partida:
 		if (userinput_1 == 'q' || userinput_1 == 'Q' || userinput_2 == 'q' || userinput_2 == 'Q') {
-			saveFile(board);
-			gameover = true;
+			std::cout << "Chose a name for the saved file."<<std::endl;
+			std::cin >> namefile;
+			namefile += filetype;
+			numero=saveFile(board,namefile);
+			if (numero == 0) {
+				gameover = true;
+			}
 		}
 
 		// Cuando se acaba el juego, mostramos el jugador:
@@ -150,7 +156,7 @@ void gameLoop(bool gameover, char board[TABLE_LENGHT][TABLE_LENGHT], char userin
 }
 
 // Función para jugar una nueva partida:
-void newGame(bool gameover, char board[TABLE_LENGHT][TABLE_LENGHT], char userinput_1, char userinput_2, short truenumber_1, short truenumber_2, bool turnplayer_1) {
+void newGame(bool gameover, char board[TABLE_LENGHT][TABLE_LENGHT], char userinput_1, char userinput_2, short truenumber_1, short truenumber_2, bool turnplayer_1, std::string namefile) {
 	
 	// 1. Reiniciamos el estado del juego
 	// y generamos un tablero:
@@ -159,19 +165,19 @@ void newGame(bool gameover, char board[TABLE_LENGHT][TABLE_LENGHT], char userinp
 	createBoard(board);
 
 	// 2. Bucle principal del juego:
-	gameLoop(gameover, board, userinput_1, userinput_2, truenumber_1, truenumber_2, turnplayer_1);
+	gameLoop(gameover, board, userinput_1, userinput_2, truenumber_1, truenumber_2, turnplayer_1,namefile);
 }
 
 // Función para jugar una partida guardada:
-void loadGame(bool gameover, char board[TABLE_LENGHT][TABLE_LENGHT], char userinput_1, char userinput_2, short truenumber_1, short truenumber_2, bool turnplayer_1) {
+void loadGame(bool gameover, char board[TABLE_LENGHT][TABLE_LENGHT], char userinput_1, char userinput_2, short truenumber_1, short truenumber_2, bool turnplayer_1, std::string namefile) {
 
 	// 1. Reiniciamos el bucle del juego y
 	// cargamos el tablero guardado:
 	gameover = false;
-	readFile(board);
+	readFile(board,namefile);
 
 	// 2. Bucle principal del juego:
-	gameLoop(gameover, board, userinput_1, userinput_2, truenumber_1, truenumber_2, turnplayer_1);
+	gameLoop(gameover, board, userinput_1, userinput_2, truenumber_1, truenumber_2, turnplayer_1,namefile);
 }
 
 // Menú con todas las opciones:
@@ -185,6 +191,9 @@ void menu(){
 	bool turnplayer_1 = true;
 	bool menu = true;
 	char option = ' ';
+	std::string namefile;
+	std::string filetype = ".txt";
+
 	srand(time(NULL));
 
 	createBoard(board);
@@ -199,10 +208,13 @@ void menu(){
 
 		system("cls");
 		if (option == '1') {
-			newGame(gameover, board, userinput_1, userinput_2, truenumber_1, truenumber_2, turnplayer_1);
+			newGame(gameover, board, userinput_1, userinput_2, truenumber_1, truenumber_2, turnplayer_1,namefile);
 		}
 		else  if (option == '2') {
-			loadGame(gameover, board, userinput_1, userinput_2, truenumber_1, truenumber_2, turnplayer_1);
+			std::cout << "Chose a name for the saved file." << std::endl;
+			std::cin >> namefile;
+			namefile += filetype;
+			loadGame(gameover, board, userinput_1, userinput_2, truenumber_1, truenumber_2, turnplayer_1,namefile);
 		}
 		else if (option == '3') {
 			std::cout << std::endl << "BYE! <3" << std::endl;
