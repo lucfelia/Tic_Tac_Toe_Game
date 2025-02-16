@@ -133,7 +133,7 @@ void gameLoop(bool gameover, char board[TABLE_LENGHT][TABLE_LENGHT], char userin
 		}
 
 		// Cuando se acaba el juego, mostramos el jugador:
-		if (gameover) {
+		if (gameover && check(board, truenumber_1, truenumber_2)) {
 			if (!turnplayer_1) {
 				std::cout << std::endl << "PLAYER 1 WINS!" << std::endl;
 			}
