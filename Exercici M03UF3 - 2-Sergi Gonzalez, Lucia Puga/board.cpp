@@ -11,8 +11,10 @@ void create_board(char bottles[HEIGHT][LENGHT]) {
 }
 
 void show_board(char bottles[HEIGHT][LENGHT]) {
+	std::cout << "---------------------------------------------------------------" << std::endl << std::endl;
 
 	for (int i = 0; i < LENGHT; i++) {
+		std::cout << "\t";
 		for (int j = 0; j < LENGHT; j++)
 		{
 			if (i == 0) {
@@ -30,4 +32,6 @@ void show_board(char bottles[HEIGHT][LENGHT]) {
 		}
 		std::cout << std::endl;
 	}
+	std::cout << "---------------------------------------------------------------" << std::endl;
+
 }
