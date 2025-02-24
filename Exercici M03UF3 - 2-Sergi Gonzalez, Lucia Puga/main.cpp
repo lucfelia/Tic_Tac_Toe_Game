@@ -56,27 +56,64 @@ void generation(std::vector<int> amount_liquid, std::vector<char> liquid_type, c
         }
     }
 }
-bool wincondition(char bottles[HEIGHT][LENGHT]){
+
+bool wincondition(char bottles[HEIGHT][LENGHT], int &puntos) {
+    bool diferentes = false; 
+
     for (int pos1 = 0; pos1 < LENGHT; pos1++) {
         char liquido1 = ' ';
-        bool liquido2 = false;
+        bool encontrado = false;
+        bool completa = true; 
 
         for (int pos2 = 0; pos2 < HEIGHT; pos2++) {
             char caracter = bottles[pos2][pos1];
 
             if (caracter != ' ') {
-                if (!liquido2) {
+                if (!encontrado) {
                     liquido1 = caracter;
-                    liquido2 = true;
+                    encontrado = true;
                 }
                 else if (caracter != liquido1) {
-                    return true;
+                    diferentes = true; 
                 }
             }
+            else {
+                completa = false; 
+            }
+        }
+
+        
+        if (completa && encontrado) {
+            puntos += 30;
         }
     }
-    return false; 
+
+    return diferentes;
 }
+
+//
+//bool wincondition(char bottles[HEIGHT][LENGHT],int puntos){
+//    for (int pos1 = 0; pos1 < LENGHT; pos1++) {
+//        char liquido1 = ' ';
+//        bool liquido2 = false;
+//
+//        for (int pos2 = 0; pos2 < HEIGHT; pos2++) {
+//            char caracter = bottles[pos2][pos1];
+//
+//            if (caracter != ' ') {
+//                if (!liquido2) {
+//                    liquido1 = caracter;
+//                    liquido2 = true;
+//                    puntos = puntos + 30;
+//                }
+//                else if (caracter != liquido1) {
+//                    return true;
+//                }
+//            }
+//        }
+//    }
+//    return false; 
+//}
 void main() {
 	srand(time(NULL));
 	char bottles[HEIGHT][LENGHT];
@@ -89,10 +126,13 @@ void main() {
     int chosen2;
     char option1;
     char option2;
+    short movements=0;
+    int puntos=0;
 	create_board(bottles);
     amount_liquid=randomer(options);
     liquid_type=randomer2(liquids);
     generation(amount_liquid,liquid_type,bottles);
+
     while (menu) {
         std::cout << "1-NEW GAME" << std::endl;
         std::cout << "2-SCORES" << std::endl;
@@ -103,7 +143,7 @@ void main() {
         if (option1 == '1') {
             while (menu) {
                 system("cls");
-                show_board(bottles);
+                show_board(bottles,movements,puntos);
 
                 std::cout << "Please select the bottle you want to fill other bottles with your hot liquid!" << std::endl;
                 std::cin >> option1;
@@ -141,6 +181,7 @@ void main() {
                         if (!empty) {
                             bottles[pos_destino][chosen2] = bottles[pos_origen][chosen1];
                             bottles[pos_origen][chosen1] = ' ';
+                            movements++;
 
                             system("cls");
                         }
@@ -152,10 +193,15 @@ void main() {
                         std::cout << "The bottle you want to fill is already full" << std::endl;
                     }
                 }
-                menu = wincondition(bottles);
+                menu = wincondition(bottles,puntos);
                 if (!menu) {
-                    system("cls");
-                    std::cout << "Gracias por jugar!!!!!" << std::endl;
+                    std::cout << "You Win thanks for playing!!!!!" << std::endl;
+                    system("pause");
+                }
+                else if (movements == 10) {
+                    std::cout << "Game over!!!!!" << std::endl;
+                    system("pause");
+                    menu = false;
                 }
                 system("cls");
             }
