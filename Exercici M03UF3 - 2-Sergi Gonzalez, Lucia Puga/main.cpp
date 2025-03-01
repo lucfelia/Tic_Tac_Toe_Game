@@ -81,39 +81,13 @@ bool wincondition(char bottles[HEIGHT][LENGHT], int &puntos) {
                 completa = false; 
             }
         }
-
-        
         if (completa && encontrado) {
             puntos += 30;
         }
     }
-
     return diferentes;
 }
 
-//
-//bool wincondition(char bottles[HEIGHT][LENGHT],int puntos){
-//    for (int pos1 = 0; pos1 < LENGHT; pos1++) {
-//        char liquido1 = ' ';
-//        bool liquido2 = false;
-//
-//        for (int pos2 = 0; pos2 < HEIGHT; pos2++) {
-//            char caracter = bottles[pos2][pos1];
-//
-//            if (caracter != ' ') {
-//                if (!liquido2) {
-//                    liquido1 = caracter;
-//                    liquido2 = true;
-//                    puntos = puntos + 30;
-//                }
-//                else if (caracter != liquido1) {
-//                    return true;
-//                }
-//            }
-//        }
-//    }
-//    return false; 
-//}
 void main() {
 	srand(time(NULL));
 	char bottles[HEIGHT][LENGHT];
