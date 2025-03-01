@@ -16,6 +16,7 @@ std::vector<int> randomer(int options[AMOUNT]) {
     }
     return positions;
 }
+
 std::vector<char> randomer2(char options[AMOUNT]) {
     std::vector<char> positions;
     for (int i = 0; i < AMOUNT; ++i) {
@@ -30,6 +31,7 @@ std::vector<char> randomer2(char options[AMOUNT]) {
     }
     return positions;
 }
+
 void generation(std::vector<int> amount_liquid, std::vector<char> liquid_type, char bottles[HEIGHT][LENGHT]) {
     int num1 = 0;
     for (size_t i = 0; i < amount_liquid.size(); ++i) {
@@ -88,6 +90,48 @@ bool wincondition(char bottles[HEIGHT][LENGHT], int &puntos) {
     return diferentes;
 }
 
+void savescore(std::string name, int puntos) {
+
+
+    std::ofstream writeFile;
+    writeFile.open("score.bin", std::ios::out | std::ios::binary |std::ios::app);
+
+    size_t longitud = name.size();
+    writeFile.write(reinterpret_cast<const char*>(&longitud), sizeof(size_t)); 
+    writeFile.write(name.c_str(), longitud); 
+    writeFile.write(reinterpret_cast<const char*>(&puntos), sizeof(int)); 
+
+    writeFile.close();
+}
+
+void loadscore() {
+    std::ifstream readFile;
+    readFile.open("score.bin", std::ios::in | std::ios::binary);
+
+    if (!readFile) {
+        std::cerr << "Error with reading the file." << std::endl;
+        return;  
+    }
+
+    while (readFile.peek() != EOF) {  
+        size_t large;
+        readFile.read(reinterpret_cast<char*>(&large), sizeof(size_t));
+
+        if (readFile.eof()) break;  
+
+        std::string name;
+        name.resize(large); 
+        readFile.read(&name[0], large);
+
+        int puntos;
+        readFile.read(reinterpret_cast<char*>(&puntos), sizeof(int));
+
+        std::cout << name << ": " << puntos << std::endl;
+    }
+
+    readFile.close();
+}
+
 void main() {
 	srand(time(NULL));
 	char bottles[HEIGHT][LENGHT];
@@ -102,10 +146,8 @@ void main() {
     char option2;
     short movements=0;
     int puntos=0;
-	create_board(bottles);
-    amount_liquid=randomer(options);
-    liquid_type=randomer2(liquids);
-    generation(amount_liquid,liquid_type,bottles);
+    bool isname = false;
+    std::string name;
 
     while (menu) {
         std::cout << "1-NEW GAME" << std::endl;
@@ -115,7 +157,17 @@ void main() {
         std::cin >> option1;
 
         if (option1 == '1') {
+            create_board(bottles);
+            amount_liquid = randomer(options);
+            liquid_type = randomer2(liquids);
+            generation(amount_liquid, liquid_type, bottles);
+            movements = 0;
             while (menu) {
+                if (!isname) {
+                    std::cout << "Introduce your name: ";
+                    std::cin >> name;
+                    isname = true;
+                }
                 system("cls");
                 show_board(bottles,movements,puntos);
 
@@ -182,10 +234,15 @@ void main() {
             menu = true;
         }
         else if (option1 == '2') {
-
+            system("cls");
+            std::cout << "Scores:" << std::endl;
+            loadscore();
+            system("pause");
+            system("cls");
         }
         else if (option1 == '3') {
             menu = false;
         }
     }
+    savescore(name, puntos);
 }
