@@ -8,6 +8,7 @@ void main() {
     char option1;
     int points = 0;
     std::string name;
+    bool isname = false;
 
     while (menu) {
         std::cout << "1-NEW GAME" << std::endl;
@@ -17,10 +18,10 @@ void main() {
         std::cin >> option1;
 
         if (option1 == '1') {
-            firstOption(menu, name, option1, points);
+            firstOption(menu, name, option1, points, isname);
         }
         else if (option1 == '2') {
-            secondOption();
+            secondOption(name,points);
         }
         else if (option1 == '3') {
             menu = false;

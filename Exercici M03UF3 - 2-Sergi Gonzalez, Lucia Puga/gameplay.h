@@ -1,8 +1,8 @@
 #pragma once
 #include "defines.h"
 
-bool winCondition(char bottles[HEIGHT][LENGHT], int& points);
+bool winCondition(char bottles[HEIGHT][LENGHT], int& points, int rows[LENGHT]);
 
-void firstOption(bool menu, std::string name, char option1, int points);
+void firstOption(bool menu, std::string &name, char option1, int &points, bool isname);
 
-void secondOption();
+void secondOption(std::string name, int puntos);

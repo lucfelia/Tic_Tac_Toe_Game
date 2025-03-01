@@ -4,9 +4,8 @@
 #include "filemanagement.h"
 
 //Chat
-bool winCondition(char bottles[HEIGHT][LENGHT], int& points) {
+bool winCondition(char bottles[HEIGHT][LENGHT], int& points,int rows[LENGHT]) {
     bool different = false;
-
     for (int pos1 = 0; pos1 < LENGHT; pos1++) {
         char liquid1 = VOID;
         bool found = false;
@@ -24,18 +23,29 @@ bool winCondition(char bottles[HEIGHT][LENGHT], int& points) {
                     different = true;
                 }
             }
-            else {
-                complete = false;
+
+            if (bottles[pos2][pos1] != bottles[2][pos1] && rows[pos1]!=1) {
+                if (bottles[pos2][pos1] != VOID) {
+                    complete = false;
+                }
             }
         }
-        if (complete && found) {
-            points += 30;
+        if (complete) {
+            rows[pos1] = 1;
+            char amountpoints = bottles[2][pos1];
+            if (amountpoints == VOID) {
+                points += 30;
+
+            }
+            else {
+                points += 30;
+            }
         }
     }
     return different;
 }
 
-void firstOption(bool menu, std::string name, char option1, int points) {
+void firstOption(bool menu, std::string &name, char option1, int &points,bool isname) {
 
     srand(time(NULL));
     char bottles[HEIGHT][LENGHT];
@@ -47,7 +57,7 @@ void firstOption(bool menu, std::string name, char option1, int points) {
     int chosen2;
     char option2;
     short movements = 0;
-    bool isname = false;
+    int rows[LENGHT] = { 0,0,0,0,0,0 };
 
     createBoard(bottles);
     amount_liquid = integerRandom(options);
@@ -70,8 +80,9 @@ void firstOption(bool menu, std::string name, char option1, int points) {
         chosen1 = int(option1 - 49);
         chosen2 = int(option2 - 49);
 
-        if (chosen1 >= LENGHT || chosen1 < 0 || chosen2 >= LENGHT || chosen2 < 0) {
+        if (chosen1 >= LENGHT || chosen1 < 0 || chosen2 >= LENGHT || chosen2 < 0 || chosen1 == chosen2) {
             std::cout << "Error: Try Again" << std::endl;
+            system("pause");
         }
         else {
             bool empty = true;
@@ -110,8 +121,8 @@ void firstOption(bool menu, std::string name, char option1, int points) {
             else {
                 std::cout << "The bottle you want to fill is already full" << std::endl;
             }
+            menu = winCondition(bottles, points, rows);
         }
-        menu = winCondition(bottles, points);
         if (!menu) {
             std::cout << "You Win thanks for playing!!!!!" << std::endl;
             system("pause");
@@ -126,7 +137,8 @@ void firstOption(bool menu, std::string name, char option1, int points) {
     menu = true;
 }
 
-void secondOption() {
+void secondOption(std::string name, int puntos) {
+    saveScores(name,puntos);
     system("cls");
     std::cout << "Scores:" << std::endl;
     loadscore();
