@@ -1,19 +1,21 @@
 #include "defines.h"
 
-void create_board(char bottles[HEIGHT][LENGHT]) {
+// Función para generar el tablero y llenarlo de espacios:
+void createBoard(char bottles[HEIGHT][LENGHT]) {
 
 	for (int i = 0; i < HEIGHT; i++) {
 		for (int j = 0; j < LENGHT; j++)
 		{
-			bottles[i][j] = ' ';
+			bottles[i][j] = VOID;
 		}
 	}
 }
 
-void show_board(char bottles[HEIGHT][LENGHT],short movements,int puntos) {
+// Función para printearlo:
+void showBoard(char bottles[HEIGHT][LENGHT],short movements,int puntos) {
 	std::cout << "Movements until 10: " << movements << std::endl;
 	std::cout << "Points: " << puntos << std::endl;
-	std::cout << "---------------------------------------------------------------" << std::endl << std::endl;
+	std::cout << MARGINS << std::endl << std::endl;
 	for (int i = 0; i < LENGHT; i++) {
 		std::cout << "\t";
 		for (int j = 0; j < LENGHT; j++)
@@ -33,5 +35,5 @@ void show_board(char bottles[HEIGHT][LENGHT],short movements,int puntos) {
 		}
 		std::cout << std::endl;
 	}
-	std::cout << "---------------------------------------------------------------" << std::endl;
+	std::cout << MARGINS << std::endl;
 }

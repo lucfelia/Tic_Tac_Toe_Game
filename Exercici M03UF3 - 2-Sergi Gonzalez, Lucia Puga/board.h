@@ -1,5 +1,6 @@
-#include "defines.h"
 #pragma once
-void create_board(char bottles[HEIGHT][LENGHT]);
+#include "defines.h"
 
-void show_board(char bottles[HEIGHT][LENGHT], short movements,int puntos);
+void createBoard(char bottles[HEIGHT][LENGHT]);
+
+void showBoard(char bottles[HEIGHT][LENGHT], short movements,int puntos);
