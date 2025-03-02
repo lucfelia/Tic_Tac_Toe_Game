@@ -18,7 +18,7 @@ void showMenu() {
     std::cout << "\tOPTION: ";
 }
 
-// Función que retorna un boleano si el juego ha acabado:
+// Función que retorna un booleano si el juego ha acabado:
 bool winCondition(char bottles[HEIGHT][LENGHT], int& points,int rows[LENGHT]) {
     bool different = false;
     for (int pos1 = 0; pos1 < LENGHT; pos1++) {
@@ -27,14 +27,14 @@ bool winCondition(char bottles[HEIGHT][LENGHT], int& points,int rows[LENGHT]) {
         bool complete = true;
 
         for (int pos2 = 0; pos2 < HEIGHT; pos2++) {
-            char caracter = bottles[pos2][pos1];
+            char character = bottles[pos2][pos1];
 
-            if (caracter != VOID) {
+            if (character != VOID) {
                 if (!found) {
-                    liquid1 = caracter;
+                    liquid1 = character;
                     found = true;
                 }
-                else if (caracter != liquid1) {
+                else if (character != liquid1) {
                     different = true;
                 }
             }
@@ -46,8 +46,8 @@ bool winCondition(char bottles[HEIGHT][LENGHT], int& points,int rows[LENGHT]) {
         }
         if (complete) {
             rows[pos1] = 1;
-            char amountpoints = bottles[2][pos1];
-            if (amountpoints == VOID) {
+            char amount_points = bottles[2][pos1];
+            if (amount_points == VOID) {
                 points += 50;
 
             }
