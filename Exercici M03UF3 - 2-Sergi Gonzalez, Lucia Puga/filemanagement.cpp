@@ -1,7 +1,7 @@
 #include "defines.h"
 
 // Función para guardar las puntuaciones y crear un archivo binario:
-void saveScores(std::string name, int puntos) {
+void saveScores(std::string name, int points) {
 
     std::ofstream writeFile;
     writeFile.open("score.bin", std::ios::out | std::ios::binary | std::ios::app);
@@ -9,7 +9,7 @@ void saveScores(std::string name, int puntos) {
     size_t longitud = name.size();
     writeFile.write(reinterpret_cast<const char*>(&longitud), sizeof(size_t));
     writeFile.write(name.c_str(), longitud);
-    writeFile.write(reinterpret_cast<const char*>(&puntos), sizeof(int));
+    writeFile.write(reinterpret_cast<const char*>(&points), sizeof(int));
 
     writeFile.close();
 }
@@ -34,10 +34,10 @@ void loadscore() {
         name.resize(large);
         readFile.read(&name[0], large);
 
-        int puntos;
-        readFile.read(reinterpret_cast<char*>(&puntos), sizeof(int));
+        int points;
+        readFile.read(reinterpret_cast<char*>(&points), sizeof(int));
 
-        std::cout << name << ": " << puntos << std::endl;
+        std::cout << name << ": " << points << std::endl;
     }
 
     readFile.close();

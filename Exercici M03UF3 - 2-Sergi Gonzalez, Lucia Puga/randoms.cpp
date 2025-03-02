@@ -1,12 +1,12 @@
 #include "defines.h"
 
 // Función para randomizar la cantidad de caracteres, el número:
-std::vector<int> integerRandom(int options[LIQUID_AMOUNT]) {
+std::vector<int> integerRandom(int liquid_num[LIQUID_AMOUNT]) {
 
     std::vector<int> positions;
 
     for (int i = 0; i < LIQUID_AMOUNT; ++i) {
-        positions.push_back(options[i]);
+        positions.push_back(liquid_num[i]);
     }
 
     for (int i = LIQUID_AMOUNT - 1; i > 0; --i) {
@@ -20,12 +20,12 @@ std::vector<int> integerRandom(int options[LIQUID_AMOUNT]) {
 }
 
 // Función para randomizar la letra, el caracter:
-std::vector<char> charRandom(char options[LIQUID_AMOUNT]) {
+std::vector<char> charRandom(char liquid_char[LIQUID_AMOUNT]) {
 
     std::vector<char> positions;
 
     for (int i = 0; i < LIQUID_AMOUNT; ++i) {
-        positions.push_back(options[i]);
+        positions.push_back(liquid_char[i]);
     }
 
     for (int i = LIQUID_AMOUNT - 1; i > 0; --i) {

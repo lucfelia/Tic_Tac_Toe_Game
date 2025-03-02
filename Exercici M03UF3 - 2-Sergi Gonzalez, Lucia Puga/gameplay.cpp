@@ -64,19 +64,19 @@ void firstOption(bool menu, std::string &name, char origin, int &points,bool isn
 
     srand(time(NULL));
     char bottles[HEIGHT][LENGHT];
-    char liquids[LIQUID_AMOUNT] = { 'X', 'O', '#', 'S' };
-    int options[LIQUID_AMOUNT] = { 3, 2, 4, 3 };
+    char liquid_char[LIQUID_AMOUNT] = { 'X', 'O', '#', 'S' };
+    int liquid_num[LIQUID_AMOUNT] = { 3, 2, 4, 3 };
     std::vector<int> amount_liquid;
     std::vector<char> liquid_type;
-    int chosen1;
-    int chosen2;
+    int numeric_origin;
+    int numeric_destination;
     char destination;
     short movements = 0;
     int rows[LENGHT] = { 0,0,0,0,0,0 };
 
     createBoard(bottles);
-    amount_liquid = integerRandom(options);
-    liquid_type = charRandom(liquids);
+    amount_liquid = integerRandom(liquid_num);
+    liquid_type = charRandom(liquid_char);
     liquidDistribution(amount_liquid, liquid_type, bottles);
     movements = 0;
     while (menu) {
@@ -92,10 +92,10 @@ void firstOption(bool menu, std::string &name, char origin, int &points,bool isn
         std::cin >> origin;
         std::cout << "Please select destination bottle: ";
         std::cin >> destination;
-        chosen1 = int(origin - 49);
-        chosen2 = int(destination - 49);
+        numeric_origin = int(origin - 49);
+        numeric_destination = int(destination - 49);
 
-        if (chosen1 >= LENGHT || chosen1 < 0 || chosen2 >= LENGHT || chosen2 < 0 || chosen1 == chosen2||bottles[0][chosen2]!=VOID) {
+        if (numeric_origin >= LENGHT || numeric_origin < 0 || numeric_destination >= LENGHT || numeric_destination < 0 || numeric_origin == numeric_destination||bottles[0][numeric_destination]!=VOID) {
             std::cout << "Error: Try Again" << std::endl;
             system("pause");
         }
@@ -106,7 +106,7 @@ void firstOption(bool menu, std::string &name, char origin, int &points,bool isn
             int pos_origen = -1;
 
             for (int i = HEIGHT - 1; i >= 0; i--) {
-                if (bottles[i][chosen2] == ' ') {
+                if (bottles[i][numeric_destination] == ' ') {
                     available = true;
                     pos_destino = i;
                     break;
@@ -115,7 +115,7 @@ void firstOption(bool menu, std::string &name, char origin, int &points,bool isn
 
             if (available) {
                 for (int i = 0; i < HEIGHT; i++) {
-                    if (bottles[i][chosen1] != ' ') {
+                    if (bottles[i][numeric_origin] != ' ') {
                         pos_origen = i;
                         empty = false;
                         break;
@@ -123,8 +123,8 @@ void firstOption(bool menu, std::string &name, char origin, int &points,bool isn
                 }
 
                 if (!empty) {
-                    bottles[pos_destino][chosen2] = bottles[pos_origen][chosen1];
-                    bottles[pos_origen][chosen1] = ' ';
+                    bottles[pos_destino][numeric_destination] = bottles[pos_origen][numeric_origin];
+                    bottles[pos_origen][numeric_origin] = ' ';
                     movements++;
 
                     system("cls");
