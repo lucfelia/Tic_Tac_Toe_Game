@@ -40,16 +40,15 @@ bool winCondition(char bottles[HEIGHT][LENGHT], int& points,int rows[LENGHT]) {
             }
 
             if (bottles[pos2][pos1] != bottles[2][pos1] && rows[pos1]!=1) {
-                if (bottles[pos2][pos1] != VOID) {
-                    complete = false;
-                }
+                    complete = false;              
             }
+
         }
         if (complete) {
             rows[pos1] = 1;
             char amountpoints = bottles[2][pos1];
             if (amountpoints == VOID) {
-                points += 30;
+                points += 50;
 
             }
             else {
@@ -61,7 +60,7 @@ bool winCondition(char bottles[HEIGHT][LENGHT], int& points,int rows[LENGHT]) {
 }
 
 // Función principal del juegos, donde hacemos los turnos y recogemos las opciones de los jugadores:
-void firstOption(bool menu, std::string &name, char option1, int &points,bool isname) {
+void firstOption(bool menu, std::string &name, char origin, int &points,bool isname) {
 
     srand(time(NULL));
     char bottles[HEIGHT][LENGHT];
@@ -71,7 +70,7 @@ void firstOption(bool menu, std::string &name, char option1, int &points,bool is
     std::vector<char> liquid_type;
     int chosen1;
     int chosen2;
-    char option2;
+    char destination;
     short movements = 0;
     int rows[LENGHT] = { 0,0,0,0,0,0 };
 
@@ -90,13 +89,13 @@ void firstOption(bool menu, std::string &name, char option1, int &points,bool is
         showBoard(bottles, movements, points);
 
         std::cout << "Please select bottle of origin: ";
-        std::cin >> option1;
+        std::cin >> origin;
         std::cout << "Please select destination bottle: ";
-        std::cin >> option2;
-        chosen1 = int(option1 - 49);
-        chosen2 = int(option2 - 49);
+        std::cin >> destination;
+        chosen1 = int(origin - 49);
+        chosen2 = int(destination - 49);
 
-        if (chosen1 >= LENGHT || chosen1 < 0 || chosen2 >= LENGHT || chosen2 < 0 || chosen1 == chosen2) {
+        if (chosen1 >= LENGHT || chosen1 < 0 || chosen2 >= LENGHT || chosen2 < 0 || chosen1 == chosen2||bottles[0][chosen2]!=VOID) {
             std::cout << "Error: Try Again" << std::endl;
             system("pause");
         }
