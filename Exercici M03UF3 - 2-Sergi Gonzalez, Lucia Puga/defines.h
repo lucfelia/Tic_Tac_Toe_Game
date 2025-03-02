@@ -12,3 +12,6 @@
 
 #define VOID ' '
 #define MARGINS "---------------------------------------------------------------"
+#define OPTION_ONE '1'
+#define OPTION_TWO '2'
+#define OPTION_THREE '3'

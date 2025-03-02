@@ -3,7 +3,22 @@
 #include "randoms.h"
 #include "filemanagement.h"
 
-//Chat
+// Función para mostrar el menú principal:
+void showMenu() {
+    std::cout << "             .                    .                        .  " << std::endl;
+    std::cout << "   . , , ,-. |- ,-. ,-.   ,-. ,-. |  ,-. ,-.   ,-. ,-. ,-. |- " << std::endl;
+    std::cout << "   |/|/  ,-| |  |-' |     |   | | |  | | |     `-. | | |   |  " << std::endl;
+    std::cout << "   ' '   `-^ `' `-' '     `-' `-' `' `-' '     `-' `-' '   `'" << std::endl;
+    std::cout << "                    Made by Lucia and Sergi <3" << std::endl << std::endl;
+    std::cout << MARGINS << std::endl ;
+    std::cout << "|                         1- NEW GAME                         |" << std::endl;
+    std::cout << "|                         2- SCORES                           |" << std::endl;
+    std::cout << "|                         3- EXIT                             |" << std::endl ;
+    std::cout << MARGINS << std::endl ;
+    std::cout << "\tOPTION: ";
+}
+
+// Función que retorna un boleano si el juego ha acabado:
 bool winCondition(char bottles[HEIGHT][LENGHT], int& points,int rows[LENGHT]) {
     bool different = false;
     for (int pos1 = 0; pos1 < LENGHT; pos1++) {
@@ -45,6 +60,7 @@ bool winCondition(char bottles[HEIGHT][LENGHT], int& points,int rows[LENGHT]) {
     return different;
 }
 
+// Función principal del juegos, donde hacemos los turnos y recogemos las opciones de los jugadores:
 void firstOption(bool menu, std::string &name, char option1, int &points,bool isname) {
 
     srand(time(NULL));
@@ -73,9 +89,9 @@ void firstOption(bool menu, std::string &name, char option1, int &points,bool is
         system("cls");
         showBoard(bottles, movements, points);
 
-        std::cout << "Please select bottle of origin!" << std::endl;
+        std::cout << "Please select bottle of origin: ";
         std::cin >> option1;
-        std::cout << "Please select destination bottle!" << std::endl;
+        std::cout << "Please select destination bottle: ";
         std::cin >> option2;
         chosen1 = int(option1 - 49);
         chosen2 = int(option2 - 49);
@@ -115,20 +131,20 @@ void firstOption(bool menu, std::string &name, char option1, int &points,bool is
                     system("cls");
                 }
                 else {
-                    std::cout << "The bottle is empty" << std::endl;
+                    std::cout << "The bottle is empty." << std::endl;
                 }
             }
             else {
-                std::cout << "The bottle you want to fill is already full" << std::endl;
+                std::cout << "The bottle you want to fill is already full." << std::endl;
             }
             menu = winCondition(bottles, points, rows);
         }
         if (!menu) {
-            std::cout << "You Win thanks for playing!!!!!" << std::endl;
+            std::cout << "You Win. Thanks for playing!" << std::endl;
             system("pause");
         }
         else if (movements == 10) {
-            std::cout << "Game over!!!!!" << std::endl;
+            std::cout << "Game over!" << std::endl;
             system("pause");
             menu = false;
         }
@@ -137,11 +153,17 @@ void firstOption(bool menu, std::string &name, char option1, int &points,bool is
     menu = true;
 }
 
+// Función para recoger y mostrar las puntuaciones:
 void secondOption(std::string name, int puntos) {
+
     saveScores(name,puntos);
     system("cls");
-    std::cout << "Scores:" << std::endl;
+
+    std::cout << MARGINS << std::endl;
+    std::cout << "|                         2- SCORES                           |" << std::endl;
+    std::cout << MARGINS << std::endl;
     loadscore();
+
     system("pause");
     system("cls");
 }

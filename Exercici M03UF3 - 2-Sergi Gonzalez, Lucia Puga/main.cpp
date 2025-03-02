@@ -2,6 +2,8 @@
 #include "filemanagement.h"
 #include "gameplay.h"
 
+// FUNCIÓN PRINCIPAL, LOOP DEL JUEGO:
+
 void main() {
 
     bool menu = true;
@@ -11,20 +13,24 @@ void main() {
     bool isname = false;
 
     while (menu) {
-        std::cout << "1-NEW GAME" << std::endl;
-        std::cout << "2-SCORES" << std::endl;
-        std::cout << "3-SORTIR" << std::endl << std::endl;
-        std::cout << "Decision:";
+
+        showMenu();
+
         std::cin >> option1;
 
-        if (option1 == '1') {
+        if (option1 == OPTION_ONE) {
             firstOption(menu, name, option1, points, isname);
         }
-        else if (option1 == '2') {
+        else if (option1 == OPTION_TWO) {
             secondOption(name,points);
         }
-        else if (option1 == '3') {
+        else if (option1 == OPTION_THREE) {
             menu = false;
+        }
+        else {
+            std::cout << "Not a valid option." << std::endl;
+            system("pause");
+            system("cls");
         }
     }
     saveScores(name, points);

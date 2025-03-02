@@ -1,5 +1,6 @@
 #include "defines.h"
 
+// Función para guardar las puntuaciones y crear un archivo binario:
 void saveScores(std::string name, int puntos) {
 
     std::ofstream writeFile;
@@ -13,6 +14,7 @@ void saveScores(std::string name, int puntos) {
     writeFile.close();
 }
 
+// Función para leer el archivo binario y mostrar las puntuaciones:
 void loadscore() {
     std::ifstream readFile;
     readFile.open("score.bin", std::ios::in | std::ios::binary);
